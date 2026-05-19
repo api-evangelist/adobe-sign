@@ -47,6 +47,8 @@ apis:
       - type: Authentication
         url: https://opensource.adobe.com/acrobat-sign/developer_guide/oauth.html
 common:
+  - type: GitHubOrganization
+    url: https://github.com/adobe-sign
   - type: Website
     url: https://www.adobe.com/sign.html
   - type: Documentation
