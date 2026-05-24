@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Adobe Acrobat Sign REST API
+  version: '6'
+  description: >-
+    Adobe Acrobat Sign (formerly Adobe Sign / EchoSign) is a cloud-based
+    electronic signature and document workflow service. The REST API v6
+    covers agreements, library templates, transient documents, workflows,
+    widgets, megaSigns, users, groups, webhooks, and reports. Clients must
+    call GET /baseUris first to discover the correct regional api_access_point
+    (na1, na2, eu1, jp1, etc.) and use that host for subsequent calls.
+    Authentication is OAuth 2.0 with scope modifiers (:self, :group, :account)
+    that control the authorization level granted to the application.
+  contact:
+    name: Adobe Acrobat Sign Developer
+    url: https://opensource.adobe.com/acrobat-sign/developer_guide/index.html
+servers:
+  - url: https://api.{shard}.adobesign.com/api/rest/v6
+    description: >-
+      Region-specific Acrobat Sign REST API v6 base URL. Clients should call
+      GET /baseUris on any shard first to obtain the correct api_access_point
+      for the account.
+    variables:
+      shard:
+        default: na1
+        description: Region shard (na1, na2, eu1, jp1, etc.)
+tags:
+  - name: Base URIs
+    description: Discovery of the correct regional api_access_point
+  - name: Agreements
+    description: Create, retrieve status, download, and manage agreements
+  - name: Transient Documents
+    description: Upload temporary files for use in signing workflows
+  - name: Library Templates
+    description: Reusable agreement templates
+  - name: Widgets
+    description: Reusable signing widgets
+  - name: Workflows
+    description: Custom workflows
+  - name: Users
+    description: Account users
+  - name: Groups
+    description: User groups
+  - name: Webhooks
+    description: Webhook subscriptions
+  - name: Reports
+    description: Reporting endpoints
+paths:
+  /baseUris:
+    get:
+      tags:
+        - Base URIs
+      summary: Discover the correct regional api_access_point for the authenticated account
+      security: []
+  /oauth/v2/token:
+    post:
+      tags:
+        - Base URIs
+      summary: Exchange an OAuth 2.0 authorization code for an access token and refresh token
+      description: >-
+        Hosted at the regional OAuth endpoint (for example
+        https://secure.adobesign.com/oauth/v2/token). The authorization code
+        is valid for 5 minutes; the returned access token expires in roughly
+        3600 seconds and the response includes the api_access_point to use
+        for subsequent REST calls.
+      security: []
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 authorization-code flow. The authorization code is exchanged
+        at POST /oauth/v2/token for an access token (~3600s) and a refresh
+        token. Scope modifiers :self, :group, and :account determine the
+        authorization level.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://secure.adobesign.com/public/oauth/v2
+          tokenUrl: https://secure.adobesign.com/oauth/v2/token
+          refreshUrl: https://secure.adobesign.com/oauth/v2/refresh
+          scopes:
+            agreement_read: Read agreements
+            agreement_write: Create and modify agreements
+            agreement_send: Send agreements for signature
+            library_read: Read library templates
+            library_write: Create and modify library templates
+            user_login: Sign in as a user
+            user_read: Read user information
+            user_write: Modify users
+            widget_read: Read widgets
+            widget_write: Create and modify widgets
+            workflow_read: Read workflows
+            workflow_write: Create and modify workflows
+security:
+  - oauth2: []
