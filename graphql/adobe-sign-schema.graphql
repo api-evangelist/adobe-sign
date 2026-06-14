@@ -1,0 +1,1282 @@
+"""
+Adobe Sign (Acrobat Sign) GraphQL Schema
+Conceptual schema based on the Acrobat Sign REST API v6.
+Reference: https://secure.na1.adobesign.com/public/docs/restapi/v6
+"""
+
+# -------------------------------------------------------
+# Scalars
+# -------------------------------------------------------
+
+scalar DateTime
+scalar URL
+scalar EmailAddress
+scalar JSON
+
+# -------------------------------------------------------
+# Enums
+# -------------------------------------------------------
+
+enum AgreementStatus {
+  OUT_FOR_SIGNATURE
+  OUT_FOR_APPROVAL
+  OUT_FOR_ACCEPTANCE
+  OUT_FOR_FORM_FILLING
+  OUT_FOR_DELIVERY
+  AUTHORING
+  CANCELLED
+  SIGNED
+  APPROVED
+  ACCEPTED
+  FORM_FILLED
+  DELIVERED
+  EXPIRED
+  ARCHIVED
+  PREFILL
+  WAITING_FOR_FAXIN
+  WAITING_FOR_VERIFICATION
+  WIDGET_WAITING_FOR_VERIFICATION
+  DRAFT
+  DOCUMENTS_NOT_YET_PROCESSED
+  WAITING_FOR_PREFILL
+}
+
+enum ParticipantRole {
+  SIGNER
+  APPROVER
+  ACCEPTOR
+  FORM_FILLER
+  CERTIFIED_RECIPIENT
+  CC
+  DELEGATE_TO_SIGNER
+  DELEGATE_TO_APPROVER
+  DELEGATE_TO_ACCEPTOR
+  DELEGATE_TO_FORM_FILLER
+  DELEGATE_TO_CERTIFIED_RECIPIENT
+  NOTARY_SIGNER
+  SHARE
+}
+
+enum SignerStatus {
+  WAITING_FOR_MY_SIGNATURE
+  WAITING_FOR_MY_APPROVAL
+  WAITING_FOR_MY_ACCEPTANCE
+  WAITING_FOR_MY_FORM_FILLING
+  WAITING_FOR_MY_DELEGATION
+  WAITING_FOR_MY_ACKNOWLEDGEMENT
+  WAITING_FOR_OTHERS
+  SIGNED
+  APPROVED
+  ACCEPTED
+  FORM_FILLED
+  DELIVERED
+  CANCELLED
+  EXPIRED
+  HIDDEN
+  RECALLED
+  WAITING_FOR_FAXIN
+  WAITING_FOR_VERIFICATION
+  CREATED
+}
+
+enum SignatureType {
+  ESIGN
+  WRITTEN
+}
+
+enum WidgetStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+  AUTHORING
+}
+
+enum WidgetView {
+  AGREEMENT
+  AUTHORING
+  PREFILLING
+}
+
+enum MegaSignStatus {
+  ACTIVE
+  CANCELLED
+  COMPLETED
+}
+
+enum LibraryType {
+  DOCUMENT
+  FORM_FIELD_LAYER
+}
+
+enum LibraryDocumentAccess {
+  GLOBAL
+  USER
+  GROUP
+  ACCOUNT
+}
+
+enum WebFormStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+  AUTHORING
+}
+
+enum WebhookEvent {
+  AGREEMENT_CREATED
+  AGREEMENT_ACTION_COMPLETED
+  AGREEMENT_WORKFLOW_COMPLETED
+  AGREEMENT_EMAIL_VIEWED
+  AGREEMENT_DELEGATED
+  AGREEMENT_ACTION_REQUESTED
+  AGREEMENT_RECALLED
+  AGREEMENT_REJECTED
+  AGREEMENT_EXPIRED
+  AGREEMENT_MODIFIED
+  AGREEMENT_SHARED
+  AGREEMENT_VAULTED
+  AGREEMENT_KBA_AUTHENTICATED
+  AGREEMENT_OFFLINE_SYNC
+  AGREEMENT_USER_ACK_AGREEMENT_TO_SHARE
+  AGREEMENT_UPLOADED_BY_SENDER
+  AGREEMENT_SIGNED
+  AGREEMENT_VIEWED
+  AGREEMENT_ACTION_DELEGATED
+  MEGASIGN_CREATED
+  MEGASIGN_RECALLED
+  MEGASIGN_SHARED
+  WIDGET_CREATED
+  WIDGET_MODIFIED
+  WIDGET_ENABLED
+  WIDGET_DISABLED
+  WIDGET_SHARED
+  WIDGET_AUTOCANCELLED
+}
+
+enum ResourceType {
+  AGREEMENT
+  WIDGET
+  MEGASIGN
+  LIBRARY_DOCUMENT
+}
+
+enum NotificationType {
+  SIGNED
+  APPROVED
+  OFFLINE_SYNC
+  WORKFLOW_COMPLETED
+  DECLINED
+  EXPIRED
+  CANCELLED
+  RECALLED
+}
+
+enum FormFieldType {
+  SIGNATURE
+  INITIALS
+  DATE
+  TEXT
+  CHECKBOX
+  RADIO
+  DROPDOWN
+  HYPERLINK
+  TITLE
+  COMPANY
+  EMAIL
+  FULLNAME
+  FILE_ATTACHMENT
+  PAYMENT
+  BUTTON
+}
+
+enum FormFieldAlignment {
+  LEFT
+  RIGHT
+  CENTER
+}
+
+# -------------------------------------------------------
+# Core Agreement Types
+# -------------------------------------------------------
+
+type Agreement {
+  id: ID!
+  name: String!
+  status: AgreementStatus!
+  agreementId: String!
+  type: SignatureType
+  locale: String
+  message: String
+  expirationTime: DateTime
+  createdDate: DateTime
+  modifiedDate: DateTime
+  senderEmail: EmailAddress
+  signatureType: SignatureType
+  participantSetsInfo: [ParticipantSet]
+  documentsList: [AgreementDocument]
+  formFieldLayerTemplates: [LibraryDocument]
+  mergeFieldInfo: [MergeField]
+  cc: [RecipientEmail]
+  postSignOption: PostSignOption
+  vaultingInfo: VaultingInfo
+  workflowId: String
+  externalId: ExternalId
+  reminderFrequency: String
+  securityOption: SecurityOption
+  notarizationInfo: NotarizationInfo
+  senderInfo: SenderInfo
+}
+
+type AgreementInfo {
+  id: ID!
+  name: String!
+  agreementId: String!
+  status: AgreementStatus!
+  displayDate: String
+  displayUserInfo: DisplayUserInfo
+  esign: Boolean
+  hidden: Boolean
+  latestVersionId: String
+  modifiedDate: DateTime
+  parentId: String
+  displayUserSetInfos: [DisplayUserSetInfo]
+}
+
+type AgreementCreation {
+  fileInfos: [FileInfo]!
+  name: String!
+  participantSetsInfo: [ParticipantSet]!
+  signatureType: SignatureType
+  state: String
+  message: String
+  locale: String
+  reminderFrequency: String
+  securityOption: SecurityOption
+  expirationTime: DateTime
+  externalId: ExternalId
+  postSignOption: PostSignOption
+  mergeFieldInfo: [MergeField]
+  workflowId: String
+  cc: [RecipientEmail]
+  ccsInfo: [CcInfo]
+  formFieldLayerTemplates: [LibraryDocument]
+  vaultingInfo: VaultingInfo
+  sendThroughWeb: Boolean
+  sendThroughWebOptions: SendThroughWebOption
+}
+
+type AgreementDocument {
+  id: ID!
+  label: String
+  numPages: Int
+  mimeType: String
+  name: String
+  documentId: String
+}
+
+type AgreementStatus {
+  agreementId: ID!
+  status: String!
+  nextParticipantSets: [ParticipantSet]
+  participantSets: [ParticipantSet]
+  parentId: String
+  signingUrl: SigningUrl
+}
+
+# -------------------------------------------------------
+# Participant Types
+# -------------------------------------------------------
+
+type ParticipantSet {
+  id: ID
+  memberInfos: [MemberInfo]!
+  order: Int
+  role: ParticipantRole!
+  label: String
+  name: String
+  privateMessage: String
+  visiblePages: [String]
+  signingUrlSetInfos: [SigningUrlSetInfo]
+  status: SignerStatus
+}
+
+type ParticipantInfo {
+  id: ID!
+  email: EmailAddress
+  name: String
+  company: String
+  title: String
+  phoneInfo: PhoneInfo
+  hasAgreedToPrivacyPolicy: Boolean
+  securityOption: SecurityOption
+  status: SignerStatus
+  self: Boolean
+  hidden: Boolean
+}
+
+type MemberInfo {
+  id: ID
+  email: EmailAddress!
+  name: String
+  company: String
+  phone: String
+  securityOption: ParticipantSecurityOption
+  self: Boolean
+}
+
+type SigningUrlSetInfo {
+  signingUrls: [SigningUrl]
+  signerSetMemberInfos: [MemberInfo]
+}
+
+type SigningUrl {
+  email: EmailAddress
+  esignUrl: URL
+}
+
+# -------------------------------------------------------
+# Recipient Types
+# -------------------------------------------------------
+
+type Recipient {
+  email: EmailAddress
+  fax: String
+  privateMessage: String
+  securityOption: SecurityOption
+}
+
+type RecipientEmail {
+  email: EmailAddress!
+}
+
+type RecipientFax {
+  fax: String!
+}
+
+type RecipientGroup {
+  memberInfos: [MemberInfo]
+  name: String
+  privateMessage: String
+}
+
+# -------------------------------------------------------
+# Signature and Initials Types
+# -------------------------------------------------------
+
+type ESignature {
+  agreementId: ID!
+  signerEmail: EmailAddress
+  signatureType: SignatureType
+  signedDate: DateTime
+  signatureImageUrl: URL
+  ip: String
+  location: String
+  userAgent: String
+}
+
+type Initials {
+  initialsId: ID
+  initialsImageUrls: [ImageUrl]
+}
+
+type Handwritten {
+  signatureId: ID
+  signatureImageUrl: URL
+  signerEmail: EmailAddress
+}
+
+type MobileSignature {
+  agreementId: ID!
+  participantId: ID
+  mobileNumber: String
+  countryCode: String
+}
+
+# -------------------------------------------------------
+# Signing Order
+# -------------------------------------------------------
+
+type SigningOrder {
+  order: Int!
+  participantSetsInfo: [ParticipantSet]
+}
+
+# -------------------------------------------------------
+# Form Field Types
+# -------------------------------------------------------
+
+type SignerFormField {
+  id: ID
+  agreementId: ID
+  inputType: FormFieldType
+  name: String
+  visible: Boolean
+  required: Boolean
+  readOnly: Boolean
+  locations: [SignerFormFieldLocation]
+  conditions: [FormFieldCondition]
+  alignment: FormFieldAlignment
+  backgroundColor: String
+  borderColor: String
+  borderStyle: String
+  borderWidth: Float
+  calculatedExpression: String
+  contentType: String
+  defaultValue: String
+  displayLabel: String
+  displayFormat: String
+  displayFormatType: String
+  fontColor: String
+  fontName: String
+  fontSize: Float
+  hidden: Boolean
+  hideable: Boolean
+  hyperlink: HyperlinkField
+  maxLength: Int
+  minLength: Int
+  maxValue: Float
+  minValue: Float
+  maskedValue: Boolean
+  radioCheckType: String
+  regularExpression: String
+  tooltip: String
+  validationData: String
+  validationType: String
+  visibleOptions: [String]
+}
+
+type SignerFormFieldLocation {
+  documentIndex: Int
+  height: Float
+  left: Float
+  pageNumber: Int!
+  top: Float
+  width: Float
+}
+
+type FormFieldCondition {
+  actionType: String
+  predicateFormFieldName: String
+  predicateValue: String
+  value: String
+}
+
+type HyperlinkField {
+  expression: String
+  text: String
+  url: URL
+}
+
+type MergeField {
+  fieldName: String!
+  defaultValue: String
+}
+
+# -------------------------------------------------------
+# Widget Types
+# -------------------------------------------------------
+
+type Widget {
+  id: ID!
+  name: String!
+  status: WidgetStatus!
+  scope: String
+  url: URL
+  javascript: String
+  createdDate: DateTime
+  modifiedDate: DateTime
+  locale: String
+  senderEmail: EmailAddress
+  authFailureInfo: AuthFailureInfo
+  ccs: [CcInfo]
+  completionInfo: WidgetCompletionInfo
+  counterSignerSetInfos: [ParticipantSet]
+  formFieldLayerTemplates: [LibraryDocument]
+  mergeFieldInfo: [MergeField]
+  securityOption: SecurityOption
+  signatureFlow: String
+  widgetParticipantSetInfo: ParticipantSet
+  fileInfos: [FileInfo]
+}
+
+type WidgetInfo {
+  id: ID!
+  name: String!
+  status: WidgetStatus!
+  javascript: String
+  url: URL
+  createdDate: DateTime
+  modifiedDate: DateTime
+  scope: String
+  hidden: Boolean
+  widgetId: String
+}
+
+type WidgetView {
+  url: URL
+}
+
+type WidgetCompletionInfo {
+  deframe: Boolean
+  delay: Int
+  url: URL
+}
+
+# -------------------------------------------------------
+# MegaSign Types
+# -------------------------------------------------------
+
+type MegaSign {
+  id: ID!
+  name: String!
+  status: MegaSignStatus!
+  createdDate: DateTime
+  modifiedDate: DateTime
+  expirationTime: DateTime
+  message: String
+  locale: String
+  senderEmail: EmailAddress
+  fileInfos: [FileInfo]
+  mergeFieldInfo: [MergeField]
+  postSignOption: PostSignOption
+  reminderFrequency: String
+  securityOption: SecurityOption
+  signatureType: SignatureType
+  ccs: [RecipientEmail]
+  ccsInfo: [CcInfo]
+}
+
+type MegaSignInfo {
+  id: ID!
+  name: String!
+  status: MegaSignStatus!
+  megaSignId: String!
+  createdDate: DateTime
+  modifiedDate: DateTime
+  displayDate: String
+  displayUserInfo: DisplayUserInfo
+  hidden: Boolean
+}
+
+type MegaSignChild {
+  id: ID!
+  agreementId: String!
+  status: AgreementStatus!
+  esign: Boolean
+  displayDate: String
+  displayUserSetInfos: [DisplayUserSetInfo]
+  hidden: Boolean
+  latestVersionId: String
+  modifiedDate: DateTime
+  name: String
+  parentId: String
+}
+
+# -------------------------------------------------------
+# Template / Library Document Types
+# -------------------------------------------------------
+
+type Template {
+  id: ID!
+  name: String!
+  modifiedDate: DateTime
+  sharingMode: String
+  templateTypes: [LibraryType]
+  ownerEmail: EmailAddress
+  status: String
+  scope: String
+}
+
+type LibraryDocument {
+  id: ID!
+  name: String!
+  libraryDocumentId: String!
+  libraryTemplateTypes: [LibraryType]
+  scope: LibraryDocumentAccess
+  createdDate: DateTime
+  modifiedDate: DateTime
+  ownerEmail: EmailAddress
+  hidden: Boolean
+  sharingMode: String
+  status: String
+}
+
+# -------------------------------------------------------
+# User Types
+# -------------------------------------------------------
+
+type UserAgreement {
+  userId: ID!
+  agreements: [AgreementInfo]
+  userRequestedPageSize: Int
+  currentPageCursor: String
+  nextPageCursor: String
+}
+
+type UserLibraryDocument {
+  userId: ID!
+  libraryDocumentList: [LibraryDocument]
+  userRequestedPageSize: Int
+  currentPageCursor: String
+  nextPageCursor: String
+}
+
+type UserInfo {
+  id: ID!
+  email: EmailAddress!
+  firstName: String
+  lastName: String
+  fullName: String
+  company: String
+  title: String
+  phone: String
+  initials: String
+  locale: String
+  optIn: String
+  roles: [String]
+  status: String
+  groupId: String
+  accountId: String
+  isAccountAdmin: Boolean
+  isGroupAdmin: Boolean
+  isPrimaryGroupAdmin: Boolean
+  createdDate: DateTime
+  capabilities: [String]
+}
+
+type SenderInfo {
+  accountId: String
+  email: EmailAddress
+  fullName: String
+  userId: String
+  groupId: String
+}
+
+type Delegate {
+  delegatingParticipantEmail: EmailAddress
+  message: String
+  newParticipantEmail: EmailAddress!
+}
+
+type DisplayUserInfo {
+  email: EmailAddress
+  fullName: String
+  userId: String
+}
+
+type DisplayUserSetInfo {
+  displayUserSetMemberInfos: [DisplayUserInfo]
+  displayUserSetName: String
+  hasAgreedToPrivacyPolicy: Boolean
+  signerType: String
+}
+
+# -------------------------------------------------------
+# Group Types
+# -------------------------------------------------------
+
+type GroupInfo {
+  id: ID!
+  groupId: String!
+  groupName: String!
+  createdDate: DateTime
+  isDefaultGroup: Boolean
+  status: String
+}
+
+# -------------------------------------------------------
+# Account / Organization Types
+# -------------------------------------------------------
+
+type AccountInfo {
+  accountId: ID!
+  accountName: String
+  accountType: String
+  companyClaims: [String]
+  createdDate: DateTime
+  currencyCode: String
+  hasAgreements: Boolean
+  hasSentFirstAgreement: Boolean
+  licenseType: String
+  status: String
+}
+
+type OrganizationInfo {
+  organizationId: ID!
+  organizationName: String
+  accountId: String
+  domains: [String]
+  status: String
+}
+
+# -------------------------------------------------------
+# Webhook Types
+# -------------------------------------------------------
+
+type WebhookInfo {
+  id: ID!
+  name: String!
+  scope: String!
+  state: String!
+  webhookSubscriptionEvents: [WebhookEvent]
+  webhookUrlInfo: WebhookUrlInfo
+  applicationDisplayName: String
+  applicationId: String
+  created: DateTime
+  lastModified: DateTime
+  resourceId: String
+  resourceType: ResourceType
+  status: String
+}
+
+type WebhookUrlInfo {
+  url: URL!
+}
+
+type Notification {
+  type: NotificationType
+  agreementId: String
+  participantRole: ParticipantRole
+  notifyParticipants: [ParticipantInfo]
+  notifySignerGroups: [RecipientGroup]
+  senderEmail: EmailAddress
+}
+
+# -------------------------------------------------------
+# Web Form Types
+# -------------------------------------------------------
+
+type WebForm {
+  id: ID!
+  name: String!
+  status: WebFormStatus!
+  url: URL
+  javascript: String
+  scope: String
+  createdDate: DateTime
+  modifiedDate: DateTime
+  locale: String
+  senderEmail: EmailAddress
+  fileInfos: [FileInfo]
+  mergeFieldInfo: [MergeField]
+  securityOption: SecurityOption
+  widgetParticipantSetInfo: ParticipantSet
+}
+
+type WebFormCreation {
+  fileInfos: [FileInfo]!
+  name: String!
+  state: String
+  locale: String
+  message: String
+  mergeFieldInfo: [MergeField]
+  securityOption: SecurityOption
+  widgetParticipantSetInfo: ParticipantSet
+  cc: [RecipientEmail]
+  ccsInfo: [CcInfo]
+  completionInfo: WidgetCompletionInfo
+  counterSignerSetInfos: [ParticipantSet]
+  formFieldLayerTemplates: [LibraryDocument]
+  signatureFlow: String
+}
+
+# -------------------------------------------------------
+# Workflow Types
+# -------------------------------------------------------
+
+type WorkflowDefinition {
+  id: ID!
+  name: String!
+  description: String
+  scope: String
+  status: String
+  created: DateTime
+  modified: DateTime
+  agreementTypes: [String]
+  ccsListInfo: [WorkflowCcListInfo]
+  expirationInfo: WorkflowExpirationInfo
+  fileInfos: [WorkflowFileInfo]
+  mergeFieldsInfo: [WorkflowMergeFieldInfo]
+  messageInfo: WorkflowMessageInfo
+  participantsInfo: [WorkflowParticipantInfo]
+  passwordInfo: WorkflowPasswordInfo
+  reminderInfo: WorkflowReminderInfo
+  securityOptionsInfo: [WorkflowSecurityOptionInfo]
+}
+
+type WorkflowCcListInfo {
+  defaultValues: [String]
+  editable: Boolean
+  label: String
+  maxListCount: Int
+  minListCount: Int
+  name: String
+  required: Boolean
+  visible: Boolean
+}
+
+type WorkflowExpirationInfo {
+  defaultValue: String
+  editable: Boolean
+  required: Boolean
+  visible: Boolean
+}
+
+type WorkflowFileInfo {
+  label: String
+  name: String
+  required: Boolean
+  workflowLibraryDocumentSelectorList: [WorkflowLibraryDocumentSelector]
+}
+
+type WorkflowLibraryDocumentSelector {
+  label: String
+  workflowLibDoc: String
+}
+
+type WorkflowMergeFieldInfo {
+  defaultValue: String
+  displayName: String
+  editable: Boolean
+  fieldName: String
+  required: Boolean
+  visible: Boolean
+}
+
+type WorkflowMessageInfo {
+  defaultValue: String
+  editable: Boolean
+  required: Boolean
+  visible: Boolean
+}
+
+type WorkflowParticipantInfo {
+  allowSenderUploadDocuments: Boolean
+  authenticationMethod: String
+  defaultValues: [WorkflowParticipantDefaultValue]
+  editable: Boolean
+  label: String
+  maxListCount: Int
+  minListCount: Int
+  name: String
+  privateInfoInputType: String
+  required: Boolean
+  role: ParticipantRole
+  selfSignerType: String
+  visible: Boolean
+}
+
+type WorkflowParticipantDefaultValue {
+  email: EmailAddress
+  label: String
+  securityOption: SecurityOption
+}
+
+type WorkflowPasswordInfo {
+  editable: Boolean
+  hint: String
+  visible: Boolean
+}
+
+type WorkflowReminderInfo {
+  defaultValue: String
+  editable: Boolean
+  required: Boolean
+  visible: Boolean
+}
+
+type WorkflowSecurityOptionInfo {
+  defaultValue: String
+  editable: Boolean
+  name: String
+  required: Boolean
+  visible: Boolean
+}
+
+# -------------------------------------------------------
+# Document / Resource Upload Types
+# -------------------------------------------------------
+
+type ResourceUpload {
+  transientDocumentId: ID!
+  fileName: String
+  mediaType: String
+}
+
+type Document {
+  id: ID!
+  documentId: String!
+  label: String
+  mimeType: String
+  name: String
+  numPages: Int
+}
+
+type DocumentMetadata {
+  id: ID!
+  contentType: String
+  documentId: String
+  label: String
+  mimeType: String
+  name: String
+  numPages: Int
+  pageInfos: [PageInfo]
+}
+
+type PageInfo {
+  height: Float
+  pageNumber: Int
+  rotation: Int
+  width: Float
+}
+
+type FileInfo {
+  documentURL: DocumentUrl
+  label: String
+  libraryDocumentId: String
+  transientDocumentId: String
+  urlFileInfo: UrlFileInfo
+}
+
+type DocumentUrl {
+  mimeType: String
+  name: String
+  url: URL!
+}
+
+type UrlFileInfo {
+  mimeType: String
+  name: String
+  url: URL!
+}
+
+# -------------------------------------------------------
+# Auth / Token Types
+# -------------------------------------------------------
+
+type APIKey {
+  apiKey: String
+  clientId: String
+  email: EmailAddress
+  groupId: String
+  scope: String
+  status: String
+  userId: String
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String
+  expiresIn: Int
+  refreshToken: String
+  scope: String
+}
+
+# -------------------------------------------------------
+# Supporting Types
+# -------------------------------------------------------
+
+type SecurityOption {
+  authenticationMethod: String
+  externalPasswordProtect: String
+  internalPasswordProtect: String
+  kbaProtection: String
+  openProtection: String
+  password: String
+  webIdentityProtection: String
+}
+
+type ParticipantSecurityOption {
+  authenticationMethod: String
+  password: String
+  phoneInfos: [PhoneInfo]
+}
+
+type PhoneInfo {
+  countryCode: String
+  countryIsoAlpha2Code: String
+  phone: String
+}
+
+type PostSignOption {
+  noChrome: Boolean
+  redirectDelay: Int
+  redirectUrl: URL
+}
+
+type VaultingInfo {
+  enabled: Boolean
+}
+
+type ExternalId {
+  id: String
+}
+
+type NotarizationInfo {
+  enabled: Boolean
+  notarizerEmail: EmailAddress
+  notaryType: String
+}
+
+type AuthFailureInfo {
+  message: String
+  url: URL
+}
+
+type CcInfo {
+  email: EmailAddress!
+  label: String
+  visiblePages: [String]
+}
+
+type ImageUrl {
+  url: URL
+  urlType: String
+}
+
+type SendThroughWebOption {
+  fileUploadOptions: FileUploadOptions
+}
+
+type FileUploadOptions {
+  libraryDocumentSender: Boolean
+  localFile: Boolean
+  webSites: Boolean
+}
+
+type BaseUri {
+  apiAccessPoint: URL!
+  webAccessPoint: URL!
+}
+
+# -------------------------------------------------------
+# Pagination
+# -------------------------------------------------------
+
+type PageCursor {
+  nextPageCursor: String
+  resultCount: Int
+}
+
+type AgreementList {
+  userAgreementList: [AgreementInfo]
+  page: PageCursor
+}
+
+type LibraryDocumentList {
+  libraryDocumentList: [LibraryDocument]
+  page: PageCursor
+}
+
+type WidgetList {
+  userWidgetList: [WidgetInfo]
+  page: PageCursor
+}
+
+type MegaSignList {
+  userMegaSignList: [MegaSignInfo]
+  page: PageCursor
+}
+
+type UserList {
+  userInfoList: [UserInfo]
+  page: PageCursor
+}
+
+type GroupList {
+  groupInfoList: [GroupInfo]
+  page: PageCursor
+}
+
+type WebhookList {
+  webhookList: [WebhookInfo]
+  page: PageCursor
+}
+
+type WorkflowList {
+  userWorkflowList: [WorkflowDefinition]
+  page: PageCursor
+}
+
+# -------------------------------------------------------
+# Input Types
+# -------------------------------------------------------
+
+input AgreementInput {
+  fileInfos: [FileInfoInput]!
+  name: String!
+  participantSetsInfo: [ParticipantSetInput]!
+  signatureType: SignatureType
+  state: String
+  message: String
+  locale: String
+  reminderFrequency: String
+  expirationTime: DateTime
+  workflowId: String
+}
+
+input ParticipantSetInput {
+  memberInfos: [MemberInfoInput]!
+  order: Int
+  role: ParticipantRole!
+  label: String
+  privateMessage: String
+}
+
+input MemberInfoInput {
+  email: EmailAddress!
+  name: String
+  company: String
+  securityOption: ParticipantSecurityOptionInput
+}
+
+input ParticipantSecurityOptionInput {
+  authenticationMethod: String
+  password: String
+  phoneInfos: [PhoneInfoInput]
+}
+
+input PhoneInfoInput {
+  countryCode: String!
+  phone: String!
+}
+
+input FileInfoInput {
+  documentURL: DocumentUrlInput
+  label: String
+  libraryDocumentId: String
+  transientDocumentId: String
+  urlFileInfo: UrlFileInfoInput
+}
+
+input DocumentUrlInput {
+  mimeType: String
+  name: String
+  url: URL!
+}
+
+input UrlFileInfoInput {
+  mimeType: String
+  name: String
+  url: URL!
+}
+
+input WebhookInput {
+  name: String!
+  scope: String!
+  state: String!
+  webhookSubscriptionEvents: [WebhookEvent]!
+  webhookUrlInfo: WebhookUrlInfoInput!
+  resourceId: String
+  resourceType: ResourceType
+}
+
+input WebhookUrlInfoInput {
+  url: URL!
+}
+
+# -------------------------------------------------------
+# Query
+# -------------------------------------------------------
+
+type Query {
+  # Base URIs
+  baseUris: BaseUri
+
+  # Agreements
+  agreements(cursor: String, pageSize: Int): AgreementList
+  agreement(agreementId: ID!): Agreement
+  agreementDocuments(agreementId: ID!): [AgreementDocument]
+  agreementSigningUrls(agreementId: ID!): [SigningUrlSetInfo]
+  agreementAuditTrail(agreementId: ID!): Document
+  agreementFormFields(agreementId: ID!): [SignerFormField]
+
+  # Library Documents
+  libraryDocuments(cursor: String, pageSize: Int): LibraryDocumentList
+  libraryDocument(libraryDocumentId: ID!): LibraryDocument
+  libraryDocumentDocuments(libraryDocumentId: ID!): [Document]
+
+  # Widgets
+  widgets(cursor: String, pageSize: Int): WidgetList
+  widget(widgetId: ID!): Widget
+
+  # MegaSigns
+  megaSigns(cursor: String, pageSize: Int): MegaSignList
+  megaSign(megaSignId: ID!): MegaSign
+  megaSignChildAgreements(megaSignId: ID!, cursor: String, pageSize: Int): AgreementList
+
+  # Users
+  users(cursor: String, pageSize: Int): UserList
+  user(userId: ID!): UserInfo
+  userAgreements(userId: ID!, cursor: String, pageSize: Int): AgreementList
+  userLibraryDocuments(userId: ID!, cursor: String, pageSize: Int): LibraryDocumentList
+  me: UserInfo
+
+  # Groups
+  groups(cursor: String, pageSize: Int): GroupList
+  group(groupId: ID!): GroupInfo
+  groupUsers(groupId: ID!, cursor: String, pageSize: Int): UserList
+
+  # Webhooks
+  webhooks(cursor: String, pageSize: Int, resourceType: ResourceType): WebhookList
+  webhook(webhookId: ID!): WebhookInfo
+
+  # Workflows
+  workflows(cursor: String, pageSize: Int): WorkflowList
+  workflow(workflowId: ID!): WorkflowDefinition
+}
+
+# -------------------------------------------------------
+# Mutation
+# -------------------------------------------------------
+
+type Mutation {
+  # Transient Documents
+  uploadTransientDocument(fileName: String!, file: String!, mimeType: String): ResourceUpload
+
+  # Agreements
+  createAgreement(input: AgreementInput!): Agreement
+  cancelAgreement(agreementId: ID!, comment: String, notifySigner: Boolean): Boolean
+  deleteAgreement(agreementId: ID!): Boolean
+  delegateAgreementSigner(agreementId: ID!, participantId: ID!, input: Delegate!): Boolean
+  sendAgreementReminder(agreementId: ID!, comment: String, recipientParticipantIds: [ID]): Boolean
+
+  # Library Documents
+  createLibraryDocument(name: String!, fileInfos: [FileInfoInput]!, sharingMode: String, templateTypes: [LibraryType]): LibraryDocument
+  deleteLibraryDocument(libraryDocumentId: ID!): Boolean
+
+  # Widgets
+  createWidget(input: AgreementInput!): Widget
+  updateWidgetStatus(widgetId: ID!, status: WidgetStatus!): Widget
+
+  # MegaSigns
+  createMegaSign(input: AgreementInput!, recipientSetsInfo: [ParticipantSetInput]!): MegaSign
+  cancelMegaSign(megaSignId: ID!, comment: String): Boolean
+
+  # Users
+  createUser(email: EmailAddress!, firstName: String!, lastName: String!, roles: [String]): UserInfo
+  updateUser(userId: ID!, firstName: String, lastName: String, company: String, title: String, phone: String): UserInfo
+
+  # Groups
+  createGroup(groupName: String!): GroupInfo
+  updateGroup(groupId: ID!, groupName: String): GroupInfo
+  deleteGroup(groupId: ID!): Boolean
+  addUserToGroup(groupId: ID!, userId: ID!): Boolean
+  removeUserFromGroup(groupId: ID!, userId: ID!): Boolean
+
+  # Webhooks
+  createWebhook(input: WebhookInput!): WebhookInfo
+  updateWebhookState(webhookId: ID!, state: String!): WebhookInfo
+  deleteWebhook(webhookId: ID!): Boolean
+}
+
+# -------------------------------------------------------
+# Subscription
+# -------------------------------------------------------
+
+type Subscription {
+  agreementStatusChanged(agreementId: ID): Agreement
+  agreementSigned(agreementId: ID): ESignature
+  widgetSubmitted(widgetId: ID): Agreement
+  megaSignChildCompleted(megaSignId: ID): MegaSignChild
+}
