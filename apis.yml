@@ -51,9 +51,9 @@ common:
   url: https://www.adobe.com/sign.html
 - type: Documentation
   url: https://opensource.adobe.com/acrobat-sign/developer_guide/index.html
-- type: Developer Portal
+- type: DeveloperPortal
   url: https://developer.adobe.com/document-services/homepage/
-- type: SignUp
+- type: Signup
   url: https://www.adobe.com/sign/free-trial-global.html
 - type: Pricing
   url: https://www.adobe.com/sign/pricing/plans.html
