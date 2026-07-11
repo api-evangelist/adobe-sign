@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/adobe-sign-openapi.yml
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://secure.adobesign.com/public/oauth/v2
+    tokenUrl: https://secure.adobesign.com/oauth/v2/token
+    scopes: 12
+  description: OAuth 2.0 authorization-code flow. The authorization code is exchanged at POST
+    /oauth/v2/token for an access token (~3600s) and a refresh token. Scope modifiers :self,
+    :group, and :account determine the authorization level.
+  sources:
+  - openapi/adobe-sign-openapi.yml

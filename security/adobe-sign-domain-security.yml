@@ -1,0 +1,32 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.adobe.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan  4 23:59:59 2027 GMT
+  hsts: null
+- host: opensource.adobe.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Aug 20 22:48:09 2026 GMT
+  hsts: false
+- host: api.na4.adobesign.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan  3 23:59:59 2027 GMT
+  hsts: null
+domains:
+- domain: adobe.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: adobesign.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
