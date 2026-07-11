@@ -45,6 +45,12 @@ apis:
   - url: graphql/adobe-sign-graphql.md
     type: GraphQL
 common:
+- type: VulnerabilityDisclosure
+  url: security/adobe-sign-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/adobe-sign-domain-security.yml
+- type: Authentication
+  url: authentication/adobe-sign-authentication.yml
 - type: OAuthScopes
   url: scopes/adobe-sign-scopes.yml
 - type: GitHubOrganization
