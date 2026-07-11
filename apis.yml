@@ -45,6 +45,8 @@ apis:
   - url: graphql/adobe-sign-graphql.md
     type: GraphQL
 common:
+- type: OAuthScopes
+  url: scopes/adobe-sign-scopes.yml
 - type: GitHubOrganization
   url: https://github.com/adobe-sign
 - type: Website
