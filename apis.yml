@@ -45,6 +45,8 @@ apis:
   - url: graphql/adobe-sign-graphql.md
     type: GraphQL
 common:
+- type: AgenticAccess
+  url: agentic-access/adobe-sign-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/adobe-sign-vulnerability-disclosure.yml
 - type: DomainSecurity
