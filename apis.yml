@@ -7,7 +7,19 @@ description: Adobe Acrobat Sign (formerly Adobe Sign and EchoSign) is a cloud-ba
   workflows, users, groups, and webhooks using OAuth 2.0 authentication against a
   region-specific API access point.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/adobe-sign.png
 tags:
 - Electronic Signature
 - E-Signature
@@ -20,30 +32,24 @@ created: '2026-05-11'
 modified: '2026-05-11'
 specificationVersion: '0.19'
 apis:
-- aid: adobe-sign:adobe-acrobat-sign-api
-  name: Adobe Acrobat Sign REST API
-  description: REST API v6 for Adobe Acrobat Sign covering agreements, library templates,
-    transient documents, workflows, megaSigns, widgets, users, groups, webhooks, and
-    reports. Clients must call GET /baseUris first to discover the region-specific
-    apiAccessPoint, then authenticate with OAuth 2.0 Bearer tokens.
+- aid: adobe-sign:adobe-sign-base-uris-api
+  name: Adobe Acrobat Sign Base URIs API
+  description: Discovery of the correct regional api_access_point
   humanURL: https://opensource.adobe.com/acrobat-sign/developer_guide/index.html
   baseURL: https://api.na4.adobesign.com/api/rest/v6
   tags:
-  - Electronic Signature
-  - Agreements
-  - Document Workflow
-  - Templates
+  - Base URIs
   properties:
+  - type: OpenAPI
+    url: openapi/adobe-sign-base-uris-api-openapi.yml
   - type: Documentation
     url: https://opensource.adobe.com/acrobat-sign/developer_guide/index.html
-  - type: OpenAPI
-    url: https://developer.adobe.com/acrobat-sign/docs/overview/sdks/openapi
   - type: APIReference
     url: https://secure.na4.adobesign.com/public/docs/restapi/v6
   - type: Authentication
     url: https://opensource.adobe.com/acrobat-sign/developer_guide/oauth.html
-  - url: graphql/adobe-sign-graphql.md
-    type: GraphQL
+  - type: GraphQL
+    url: graphql/adobe-sign-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/adobe-sign-agentic-access.yml
