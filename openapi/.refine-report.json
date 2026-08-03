@@ -1,0 +1,14 @@
+{
+  "provider": "adobe-sign",
+  "sources": [
+    "adobe-sign-base-uris-api-openapi.yml"
+  ],
+  "outputs": [
+    "adobe-sign-base-uris-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
