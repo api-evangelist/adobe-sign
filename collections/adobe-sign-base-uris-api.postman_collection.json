@@ -1,0 +1,135 @@
+{
+  "item": [
+    {
+      "id": "1a16e4ef-f14c-4c06-bc75-9fea04470239",
+      "name": "Base URIs",
+      "description": {
+        "content": "Discovery of the correct regional api_access_point",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e22b5f1-3db9-4837-81f1-412a0c80c794",
+          "name": "Discover the correct regional api_access_point for the authenticated account",
+          "request": {
+            "name": "Discover the correct regional api_access_point for the authenticated account",
+            "description": {},
+            "url": {
+              "path": [
+                "baseUris"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Region shard (na1, na2, eu1, jp1, etc.)",
+                  "type": "any",
+                  "value": "{{shard}}",
+                  "key": "shard"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91ec5cd4-5a10-423a-b1d4-712e1c29f99f",
+          "name": "Exchange an OAuth 2.0 authorization code for an access token and refresh token",
+          "request": {
+            "name": "Exchange an OAuth 2.0 authorization code for an access token and refresh token",
+            "description": {
+              "content": "Hosted at the regional OAuth endpoint (for example https://secure.adobesign.com/oauth/v2/token). The authorization code is valid for 5 minutes; the returned access token expires in roughly 3600 seconds and the response includes the api_access_point to use for subsequent REST calls.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "v2",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Region shard (na1, na2, eu1, jp1, etc.)",
+                  "type": "any",
+                  "value": "{{shard}}",
+                  "key": "shard"
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Region shard (na1, na2, eu1, jp1, etc.)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "na1",
+      "key": "shard"
+    },
+    {
+      "type": "string",
+      "value": "https://api.{{shard}}.adobesign.com/api/rest/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "agreement_read agreement_write agreement_send library_read library_write user_login user_read user_write widget_read widget_write workflow_read workflow_write"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "https://secure.adobesign.com/oauth/v2/refresh"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://secure.adobesign.com/oauth/v2/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://secure.adobesign.com/public/oauth/v2"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f08fd71b-2f0b-4b07-88f2-ca94886f6473",
+    "name": "Adobe Acrobat Sign REST Base URIs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Adobe Acrobat Sign (formerly Adobe Sign / EchoSign) is a cloud-based electronic signature and document workflow service. The REST API v6 covers agreements, library templates, transient documents, workflows, widgets, megaSigns, users, groups, webhooks, and reports. Clients must call GET /baseUris first to discover the correct regional api_access_point (na1, na2, eu1, jp1, etc.) and use that host for subsequent calls. Authentication is OAuth 2.0 with scope modifiers (:self, :group, :account) that control the authorization level granted to the application.\n\nContact Support:\n Name: Adobe Acrobat Sign Developer",
+      "type": "text/plain"
+    }
+  }
+}

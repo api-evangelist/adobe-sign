@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adobe Acrobat Sign REST Base URIs API",
+    "version": "6"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://secure.adobesign.com/public/oauth/v2",
+      "accessTokenUrl": "https://secure.adobesign.com/oauth/v2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Base URIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Discover the correct regional api_access_point for the authenticated account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.{shard}.adobesign.com/api/rest/v6/baseUris"
+          },
+          "docs": "Discover the correct regional api_access_point for the authenticated account"
+        },
+        {
+          "info": {
+            "name": "Exchange an OAuth 2.0 authorization code for an access token and refresh token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.{shard}.adobesign.com/api/rest/v6/oauth/v2/token"
+          },
+          "docs": "Hosted at the regional OAuth endpoint (for example https://secure.adobesign.com/oauth/v2/token). The authorization code is valid for 5 minutes; the returned access token expires in roughly 3600 seconds and the response includes the api_access_point to use for subsequent REST calls."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
