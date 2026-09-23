@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Adobe Acrobat Sign REST Base URIs API
   version: '6'
-  description: Adobe Acrobat Sign (formerly Adobe Sign / EchoSign) is a cloud-based electronic signature and document workflow service. The REST API v6 covers agreements, library templates, transient documents, workflows, widgets, megaSigns, users, groups, webhooks, and reports. Clients must call GET /baseUris first to discover the correct regional api_access_point (na1, na2, eu1, jp1, etc.) and use that host for subsequent calls. Authentication is OAuth 2.0 with scope modifiers (:self, :group, :account) that control the authorization level granted to the application.
+  description: Adobe Acrobat Sign (formerly Adobe Sign / EchoSign) is a cloud-based electronic signature and document workflow service.
   contact:
     name: Adobe Acrobat Sign Developer
     url: https://opensource.adobe.com/acrobat-sign/developer_guide/index.html
@@ -25,6 +25,8 @@ paths:
       - Base URIs
       summary: Discover the correct regional api_access_point for the authenticated account
       security: []
+      operationId: getBaseUris
+      x-operation-id-source: derived
   /oauth/v2/token:
     post:
       tags:
@@ -32,6 +34,8 @@ paths:
       summary: Exchange an OAuth 2.0 authorization code for an access token and refresh token
       description: Hosted at the regional OAuth endpoint (for example https://secure.adobesign.com/oauth/v2/token). The authorization code is valid for 5 minutes; the returned access token expires in roughly 3600 seconds and the response includes the api_access_point to use for subsequent REST calls.
       security: []
+      operationId: postOauthV2Token
+      x-operation-id-source: derived
 components:
   securitySchemes:
     oauth2:
