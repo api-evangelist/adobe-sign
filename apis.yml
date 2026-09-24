@@ -60,8 +60,6 @@ apis:
     url: https://secure.na4.adobesign.com/public/docs/restapi/v6
   - type: Authentication
     url: https://opensource.adobe.com/acrobat-sign/developer_guide/oauth.html
-  - type: GraphQL
-    url: graphql/adobe-sign-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/adobe-sign-agentic-access.yml
