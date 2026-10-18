@@ -33,6 +33,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/adobe-sign.png
 tags:
+- E-Signature
+- Document Workflow
+- Digital Signature
+- Adobe
+- Agreements
+tags_raw:
 - Electronic Signature
 - E-Signature
 - Document Workflow
