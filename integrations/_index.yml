@@ -28,3 +28,15 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
+- slug: adobe-sign-virtusa
+  label: Virtusa
+  partner_name: Virtusa
+  category: Adobe Exchange Experience Cloud listing (Acrobat Sign, Experience Platform services)
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://exchange.adobe.com/apps/ec/1200146
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

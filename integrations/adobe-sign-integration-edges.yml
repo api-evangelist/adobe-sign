@@ -25,8 +25,39 @@ edges:
     builder: unknown (not in the directory record)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: Virtusa
+  app: Virtusa | Digital Enrollment of Customers Online
+  apps:
+  - Virtusa | Digital Enrollment of Customers Online
+  listing_count: 1
+  partner: null
+  partner_match: null
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  relationship: platform-app
+  direction: partner-built
+  evidence: https://exchange.adobe.com/apps/ec/1200146
+  category: Adobe Exchange Experience Cloud listing (Acrobat Sign, Experience Platform services)
+  products:
+  - Acrobat Sign
+  - Experience Platform services
+  partner_url: https://www.virtusa.com
+  signal_note: Adobe Exchange listing (publisher website from the listing JSON the public browse page loads); listing
+    count and app names are context, never counted
+  detected_by: sweep-adobe-exchange.py
+  detected: '2026-10-23'
+  partner_tier: Adobe Platinum partner
+  partner_held:
+    candidate: virtusa
+    why: 'market-fit gate: partner''s own tags carry no creative / media / marketing / analytics / content / commerce
+      / e-sign / work-management term'
 method: searched
 checked:
 - https://zapier.com/api/v4/apps/
+- https://exchange.adobe.com/apps
+- https://exchange.adobe.com/apps/browse/cc
+- https://exchange.adobe.com/apps/browse/ec
+- https://exchange.adobe.com/robots.txt
 source:
 - https://zapier.com/api/v4/apps/
