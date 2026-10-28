@@ -1,4 +1,4 @@
-# Adobe Acrobat Sign (adobe-sign)
+# Adobe Acrobat Sign
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,64 +66,112 @@
 
 Adobe Acrobat Sign (formerly Adobe Sign and EchoSign) is a cloud-based electronic signature and digital document workflow service that lets organizations send, sign, track, and manage legally binding agreements. The Acrobat Sign REST API v6 provides programmatic access to agreements, templates, transient documents, workflows, users, groups, and webhooks using OAuth 2.0 authentication against a region-specific API access point.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/adobe-sign/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/adobe-sign/refs/heads/main/apis.yml)
+**Areas:** E-Signature · Document Workflow · Digital Signature · Adobe · Agreements
 
-## Scope
+## Adobe Acrobat Sign on APIs.io
 
-- **Type:** Index
+Everything profiled for Adobe Acrobat Sign is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/adobe-sign/](https://apis.io/providers/adobe-sign/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (1)
 
-- Electronic Signature
-- E-Signature
-- Document Workflow
-- Digital Signature
-- Adobe
-- Agreements
+- [Adobe Acrobat Sign Base URIs API](https://apis.io/apis/adobe-sign/adobe-sign-base-uris-api/) — Discovery of the correct regional api_access_point
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-11
-- **Modified:** 2026-05-11
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### GraphQL (1)
 
-### Adobe Acrobat Sign REST API
+GraphQL schemas.
 
-REST API v6 for Adobe Acrobat Sign covering agreements, library templates, transient documents, workflows, megaSigns, widgets, users, groups, webhooks, and reports. Clients must call GET /baseUris first to discover the region-specific apiAccessPoint, then authenticate with OAuth 2.0 Bearer tokens.
+- [Moved to /providers/adobe-sign/](https://apis.io/graphqls/adobe-sign/adobe-sign-graphql/)
 
-- **Human URL:** [https://opensource.adobe.com/acrobat-sign/developer_guide/index.html](https://opensource.adobe.com/acrobat-sign/developer_guide/index.html)
-- **Base URL:** `https://api.na4.adobesign.com/api/rest/v6`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Electronic Signature
-- Agreements
-- Document Workflow
-- Templates
+- [Adobe Sign Agentic Access](https://apis.io/agentic-access/adobe-sign/adobe-sign-agentic-access/)
 
-#### Properties
+#### Collections (2)
 
-- [Documentation](https://opensource.adobe.com/acrobat-sign/developer_guide/index.html)
-- [OpenAPI](https://developer.adobe.com/acrobat-sign/docs/overview/sdks/openapi) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://secure.na4.adobesign.com/public/docs/restapi/v6)
-- [Authentication](https://opensource.adobe.com/acrobat-sign/developer_guide/oauth.html)
-- [Postman Collection](collections/adobe-sign.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/adobe-sign.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-## Common Properties
+- [Adobe Acrobat Sign REST API](https://apis.io/collections/adobe-sign/open-adobe-sign/)
+- [Adobe Acrobat Sign REST Base URIs API](https://apis.io/collections/adobe-sign/open-adobe-sign-base-uris-api/)
 
-- [GitHub Organization](https://github.com/adobe-sign)
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Adobe Sign Authentication](https://apis.io/security/adobe-sign/adobe-sign-authentication/)
+- [Adobe Sign Domain Security](https://apis.io/security/adobe-sign/adobe-sign-domain-security/)
+- [Adobe Sign Vulnerability Disclosure](https://apis.io/security/adobe-sign/adobe-sign-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Adobe Sign Scopes](https://apis.io/scopes/adobe-sign/adobe-sign-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.adobe.com/sign.html)
 - [Documentation](https://opensource.adobe.com/acrobat-sign/developer_guide/index.html)
-- [Developer  Portal](https://developer.adobe.com/document-services/homepage/)
-- [Sign Up](https://www.adobe.com/sign/free-trial-global.html)
 - [Pricing](https://www.adobe.com/sign/pricing/plans.html)
-- [Login](https://secure.adobesign.com/public/login)
 - [Support](https://helpx.adobe.com/support/sign.html)
-- [F A Q](https://helpx.adobe.com/sign/faq/api.html)
+- [GitHub](https://github.com/adobe-sign)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 42.2 |
+| Contract governance | 0.0 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 17.1 |
+
+**Agent readiness 22.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 27.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/adobe-sign/](https://apis.io/providers/adobe-sign/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Adobe Acrobat Sign: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/adobe-sign/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
